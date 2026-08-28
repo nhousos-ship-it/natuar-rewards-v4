@@ -3,7 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+
 <title>NATUAR Rewards</title>
+
+<meta name="theme-color" content="#F4EFE7">
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="NATUAR">
+
+<link rel="manifest" href="./manifest.json">
+<link rel="apple-touch-icon" href="./apple-touch-icon.png">
 
 <style>
 :root{
@@ -13,34 +23,59 @@
   --soft:#ece5da;
   --blue:#2f80ed;
   --green:#e4efdf;
-  --danger:#b42318;
-  --danger-bg:#fdecea;
+  --red:#b42318;
+  --redbg:#fee4e2;
 }
+
 *{box-sizing:border-box}
+
 body{
   margin:0;
   background:var(--bg);
   color:var(--ink);
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
 }
-.app{max-width:540px;margin:auto;padding:28px 18px 50px}
+
+.app{
+  max-width:540px;
+  margin:auto;
+  padding:28px 18px 50px;
+}
+
 .brand{
   font-family:Georgia,serif;
   font-size:32px;
   letter-spacing:6px;
-  margin:8px 0 28px
+  margin:8px 0 28px;
 }
+
 .card{
   background:#fff;
   border-radius:24px;
   padding:22px;
-  box-shadow:0 12px 30px rgba(0,0,0,.08)
+  box-shadow:0 12px 30px rgba(0,0,0,.08);
 }
-h1,h2{font-family:Georgia,serif;margin:0 0 16px}
-h1{font-size:38px;line-height:1.05}
+
+h1,h2{
+  font-family:Georgia,serif;
+  margin:0 0 16px;
+}
+
+h1{
+  font-size:38px;
+  line-height:1.05;
+}
+
 h2{font-size:30px}
-.kicker{font-size:14px;opacity:.55;margin-bottom:18px}
+
+.kicker{
+  font-size:14px;
+  opacity:.55;
+  margin-bottom:18px;
+}
+
 .hidden{display:none!important}
+
 .btn{
   width:100%;
   border:0;
@@ -48,19 +83,34 @@ h2{font-size:30px}
   padding:16px;
   margin-top:12px;
   font-size:17px;
-  font-weight:700
+  font-weight:700;
+  cursor:pointer;
 }
-.primary{background:#171717;color:#fff}
-.secondary{background:var(--soft);color:var(--blue)}
-.danger{background:var(--danger-bg);color:var(--danger)}
+
+.primary{
+  background:#171717;
+  color:#fff;
+}
+
+.secondary{
+  background:var(--soft);
+  color:var(--blue);
+}
+
+.danger{
+  background:var(--redbg);
+  color:var(--red);
+}
+
 input{
   width:100%;
   padding:14px;
   border:1px solid #ddd;
   border-radius:14px;
   font-size:16px;
-  margin:6px 0 10px
+  margin:6px 0 10px;
 }
+
 .back{
   border:0;
   background:transparent;
@@ -68,9 +118,15 @@ input{
   padding:0;
   margin-bottom:15px;
   font-size:16px;
-  font-weight:700
+  font-weight:700;
 }
-.cups{display:flex;gap:7px;margin:18px 0}
+
+.cups{
+  display:flex;
+  gap:7px;
+  margin:18px 0;
+}
+
 .cup{
   flex:1;
   aspect-ratio:1;
@@ -78,30 +134,38 @@ input{
   background:#e9e1d6;
   display:grid;
   place-items:center;
-  font-size:20px
+  font-size:20px;
 }
-.cup.on{background:#171717;color:#fff}
+
+.cup.on{
+  background:#171717;
+  color:#fff;
+}
+
 .stats{
   display:grid;
   grid-template-columns:1fr auto;
   gap:9px;
-  margin:15px 0
+  margin:15px 0;
 }
+
 .reward{
   background:var(--green);
   padding:14px;
   border-radius:14px;
   margin:14px 0;
-  font-weight:700
+  font-weight:700;
 }
+
 .row{
   display:flex;
   justify-content:space-between;
   align-items:center;
   gap:10px;
   padding:14px 0;
-  border-bottom:1px solid #eee
+  border-bottom:1px solid #eee;
 }
+
 .link{
   border:0;
   background:transparent;
@@ -109,11 +173,29 @@ input{
   font-size:16px;
   font-weight:700;
   text-align:left;
-  padding:0
+  padding:0;
+  flex:1;
 }
-.qr{display:grid;place-items:center;padding:18px;margin-top:15px}
-.qr img{width:220px;height:220px;max-width:100%}
-.small{font-size:12px;opacity:.62;text-align:center}
+
+.qr{
+  display:grid;
+  place-items:center;
+  padding:18px;
+  margin-top:15px;
+}
+
+.qr img{
+  width:220px;
+  height:220px;
+  max-width:100%;
+}
+
+.small{
+  font-size:12px;
+  opacity:.62;
+  text-align:center;
+}
+
 .notice{
   position:fixed;
   left:16px;
@@ -126,15 +208,22 @@ input{
   padding:14px;
   border-radius:14px;
   text-align:center;
-  z-index:20
+  z-index:20;
 }
+
 .customer-badge{
   background:#f1ece4;
   border-radius:12px;
   padding:10px;
   text-align:center;
   margin-bottom:16px;
-  font-weight:700
+  font-weight:700;
+}
+
+.separator{
+  height:1px;
+  background:#eee;
+  margin:20px 0 8px;
 }
 </style>
 </head>
@@ -144,22 +233,35 @@ input{
 <div class="app">
 
 <div class="brand">NATUAR</div>
+
 <div id="notice" class="notice hidden"></div>
 
 <section id="login" class="card hidden">
   <div class="kicker">STAFF</div>
   <h2>Είσοδος προσωπικού</h2>
 
-  <input id="staffEmail" type="email" placeholder="Email">
-  <input id="staffPassword" type="password" placeholder="Κωδικός">
+  <input
+    id="staffEmail"
+    type="email"
+    autocomplete="username"
+    placeholder="Email">
+
+  <input
+    id="staffPassword"
+    type="password"
+    autocomplete="current-password"
+    placeholder="Κωδικός">
 
   <button class="btn primary" onclick="staffLogin()">
     Είσοδος
   </button>
 </section>
 
+
 <section id="staffHome" class="card hidden">
+
   <div class="kicker">NATUAR STAFF</div>
+
   <h1>Rewards</h1>
 
   <button class="btn primary" onclick="showCreate()">
@@ -173,39 +275,86 @@ input{
   <button class="btn secondary" onclick="logout()">
     Έξοδος προσωπικού
   </button>
+
 </section>
 
+
 <section id="create" class="card hidden">
-  <button class="back" onclick="showStaffHome()">← Πίσω</button>
+
+  <button class="back" onclick="showStaffHome()">
+    ← Πίσω
+  </button>
 
   <h2>Νέος πελάτης</h2>
 
   <input id="name" placeholder="Όνομα">
-  <input id="phone" placeholder="Τηλέφωνο" inputmode="tel">
-  <input id="email" type="email" placeholder="Email">
 
-  <button class="btn primary" onclick="createCustomer()">
+  <input
+    id="phone"
+    placeholder="Τηλέφωνο"
+    inputmode="tel">
+
+  <input
+    id="email"
+    type="email"
+    placeholder="Email">
+
+  <button
+    class="btn primary"
+    onclick="createCustomer()">
+
     Δημιουργία κάρτας
+
   </button>
+
 </section>
+
 
 <section id="customers" class="card hidden">
-  <button class="back" onclick="showStaffHome()">← Πίσω</button>
+
+  <button
+    class="back"
+    onclick="showStaffHome()">
+
+    ← Πίσω
+
+  </button>
+
   <h2>Πελάτες</h2>
+
   <div id="list"></div>
+
 </section>
 
-<section id="staffCustomer" class="card hidden">
-  <button class="back" onclick="showCustomers()">← Πελάτες</button>
 
-  <div class="kicker">STAFF CARD</div>
+<section id="staffCustomer" class="card hidden">
+
+  <button
+    class="back"
+    onclick="showCustomers()">
+
+    ← Πελάτες
+
+  </button>
+
+  <div class="kicker">
+    STAFF CARD
+  </div>
 
   <h2 id="staffName"></h2>
-  <div id="staffContact" class="kicker"></div>
 
-  <div id="staffCups" class="cups"></div>
+  <div
+    id="staffContact"
+    class="kicker">
+  </div>
+
+  <div
+    id="staffCups"
+    class="cups">
+  </div>
 
   <div class="stats">
+
     <span>Πρόοδος</span>
     <strong id="staffProgress">0/5</strong>
 
@@ -214,43 +363,74 @@ input{
 
     <span>Σύνολο καφέδων</span>
     <strong id="staffTotal">0</strong>
+
   </div>
 
-  <div id="staffRewardBox" class="reward hidden">
+  <div
+    id="staffRewardBox"
+    class="reward hidden">
+
     🎁 Δωρεάν καφές διαθέσιμος
+
   </div>
 
-  <button class="btn primary" onclick="addCoffee()">
+  <button
+    class="btn primary"
+    onclick="addCoffee()">
+
     ☕ +1 Καφές
+
   </button>
 
-  <button id="redeemButton"
-          class="btn secondary hidden"
-          onclick="redeem()">
+  <button
+    id="redeemButton"
+    class="btn secondary hidden"
+    onclick="redeem()">
+
     🎁 Εξαργύρωση
-  </button>
 
-  <button class="btn danger" onclick="deleteCustomer()">
-    🗑 Διαγραφή πελάτη
   </button>
 
   <div class="qr">
-    <img id="staffQR" alt="QR πελάτη">
+
+    <img
+      id="staffQR"
+      alt="QR πελάτη">
+
   </div>
 
   <p class="small">
-    Το QR ανοίγει την κάρτα πελάτη μόνο για προβολή.
+    Το QR ανοίγει κάρτα μόνο για προβολή.
   </p>
+
+  <div class="separator"></div>
+
+  <button
+    class="btn danger"
+    onclick="deleteCustomer()">
+
+    🗑 Διαγραφή πελάτη
+
+  </button>
+
 </section>
 
+
 <section id="publicCard" class="card hidden">
-  <div class="customer-badge">NATUAR REWARDS</div>
+
+  <div class="customer-badge">
+    NATUAR REWARDS
+  </div>
 
   <h2 id="publicName"></h2>
 
-  <div id="publicCups" class="cups"></div>
+  <div
+    id="publicCups"
+    class="cups">
+  </div>
 
   <div class="stats">
+
     <span>Πρόοδος</span>
     <strong id="publicProgress">0/5</strong>
 
@@ -259,18 +439,25 @@ input{
 
     <span>Σύνολο καφέδων</span>
     <strong id="publicTotal">0</strong>
+
   </div>
 
-  <div id="publicRewardBox" class="reward hidden">
+  <div
+    id="publicRewardBox"
+    class="reward hidden">
+
     🎁 Έχεις δωρεάν καφέ!
+
   </div>
 
   <p class="small">
-    Η κάρτα αυτή είναι μόνο για προβολή.
+    Η κάρτα είναι μόνο για προβολή και ενημερώνεται αυτόματα.
   </p>
+
 </section>
 
 </div>
+
 
 <script>
 
@@ -283,10 +470,13 @@ const SUPABASE_KEY =
 const SITE_URL =
 'https://nhousos-ship-it.github.io/natuar-rewards-v4/';
 
-let accessToken = null;
-let currentCustomer = null;
+let accessToken=null;
+let currentCustomer=null;
+let publicRefreshTimer=null;
+
 
 function only(id){
+
   [
     'login',
     'staffHome',
@@ -295,528 +485,1134 @@ function only(id){
     'staffCustomer',
     'publicCard'
   ].forEach(x=>{
-    document.getElementById(x).classList.add('hidden');
+
+    document
+      .getElementById(x)
+      .classList.add('hidden');
+
   });
 
-  document.getElementById(id).classList.remove('hidden');
+  document
+    .getElementById(id)
+    .classList.remove('hidden');
+
 }
 
+
 function toast(text){
-  const n=document.getElementById('notice');
+
+  const n=
+    document.getElementById('notice');
+
   n.textContent=text;
+
   n.classList.remove('hidden');
 
   clearTimeout(toast.timer);
 
-  toast.timer=setTimeout(()=>{
-    n.classList.add('hidden');
-  },2200);
+  toast.timer=
+    setTimeout(()=>{
+
+      n.classList.add('hidden');
+
+    },2200);
+
 }
+
 
 function authHeaders(extra={}){
+
   return{
+
     'apikey':SUPABASE_KEY,
-    'Authorization':'Bearer '+accessToken,
+
+    'Authorization':
+      'Bearer '+accessToken,
+
     ...extra
+
   };
+
 }
+
 
 function publicHeaders(extra={}){
+
   return{
+
     'apikey':SUPABASE_KEY,
+
     ...extra
+
   };
+
 }
+
 
 function uuid(){
-  if(window.crypto && crypto.randomUUID){
+
+  if(
+    window.crypto &&
+    crypto.randomUUID
+  ){
+
     return crypto.randomUUID();
+
   }
 
-  return 'c-'+Date.now()+'-'+Math.random().toString(36).slice(2);
+  return 'c-'+
+    Date.now()+
+    '-'+
+    Math.random()
+      .toString(36)
+      .slice(2);
+
 }
+
 
 function dbCustomer(x){
+
   return{
+
     id:x.loyalty_code,
-    name:x.name||'Πελάτης',
-    phone:x.phone||'',
-    email:x.email||'',
-    coffees:Number(x.stamps)||0,
-    rewards:Number(x.rewards_available)||0,
-    total:Number(x.lifetime_coffees)||0,
-    lifetimeRewards:Number(x.lifetime_rewards)||0
+
+    name:
+      x.name || 'Πελάτης',
+
+    phone:
+      x.phone || '',
+
+    email:
+      x.email || '',
+
+    coffees:
+      Number(x.stamps)||0,
+
+    rewards:
+      Number(x.rewards_available)||0,
+
+    total:
+      Number(x.lifetime_coffees)||0,
+
+    lifetimeRewards:
+      Number(x.lifetime_rewards)||0
+
   };
+
 }
 
+
+function fillCups(element,count){
+
+  element.innerHTML='';
+
+  for(let i=0;i<5;i++){
+
+    const d=
+      document.createElement('div');
+
+    d.className=
+      'cup'+
+      (i<count?' on':'');
+
+    d.textContent=
+      i<count?'☕':'';
+
+    element.appendChild(d);
+
+  }
+
+}
+
+
 async function staffLogin(){
+
   const email=
-    document.getElementById('staffEmail').value.trim();
+    document
+      .getElementById('staffEmail')
+      .value
+      .trim();
 
   const password=
-    document.getElementById('staffPassword').value;
+    document
+      .getElementById('staffPassword')
+      .value;
 
-  if(!email||!password){
-    toast('Συμπλήρωσε email και κωδικό');
+  if(!email || !password){
+
+    toast(
+      'Συμπλήρωσε email και κωδικό'
+    );
+
     return;
+
   }
 
   try{
-    const r=await fetch(
-      SUPABASE_URL+'/auth/v1/token?grant_type=password',
-      {
-        method:'POST',
-        headers:{
-          'apikey':SUPABASE_KEY,
-          'Content-Type':'application/json'
-        },
-        body:JSON.stringify({email,password})
-      }
-    );
 
-    const data=await r.json();
+    const r=
+      await fetch(
 
-    if(!r.ok||!data.access_token){
-      throw new Error('login');
+        SUPABASE_URL+
+        '/auth/v1/token?grant_type=password',
+
+        {
+
+          method:'POST',
+
+          headers:{
+
+            'apikey':
+              SUPABASE_KEY,
+
+            'Content-Type':
+              'application/json'
+
+          },
+
+          body:
+            JSON.stringify({
+              email,
+              password
+            })
+
+        }
+
+      );
+
+
+    const data=
+      await r.json();
+
+
+    if(
+      !r.ok ||
+      !data.access_token
+    ){
+
+      throw new Error(
+        'login failed'
+      );
+
     }
 
-    accessToken=data.access_token;
+
+    accessToken=
+      data.access_token;
+
 
     sessionStorage.setItem(
       'natuar_staff_token',
       accessToken
     );
 
+
     showStaffHome();
 
+
   }catch(e){
-    alert('Λάθος στοιχεία προσωπικού.');
+
+    console.error(e);
+
+    alert(
+      'Λάθος email ή κωδικός προσωπικού.'
+    );
+
   }
+
 }
 
+
 function showStaffHome(){
+
+  currentCustomer=null;
+
   if(!accessToken){
+
     only('login');
+
     return;
+
   }
 
   only('staffHome');
+
 }
 
+
 function logout(){
+
   accessToken=null;
+
+  currentCustomer=null;
 
   sessionStorage.removeItem(
     'natuar_staff_token'
   );
 
   only('login');
+
 }
 
+
 function showCreate(){
+
   if(!accessToken){
+
     only('login');
+
     return;
+
   }
 
   only('create');
+
 }
 
+
 async function createCustomer(){
+
   const name=
-    document.getElementById('name').value.trim();
+    document
+      .getElementById('name')
+      .value
+      .trim();
 
   const phone=
-    document.getElementById('phone').value.trim();
+    document
+      .getElementById('phone')
+      .value
+      .trim();
 
   const email=
-    document.getElementById('email').value.trim();
+    document
+      .getElementById('email')
+      .value
+      .trim();
+
 
   if(!name){
+
     toast('Γράψε όνομα');
+
     return;
+
   }
 
+
   const c={
+
     id:uuid(),
+
     name,
+
     phone,
+
     email,
+
     coffees:0,
+
     rewards:0,
+
     total:0,
+
     lifetimeRewards:0
+
   };
 
+
   try{
+
     await saveCustomer(c);
+
+
+    document
+      .getElementById('name')
+      .value='';
+
+    document
+      .getElementById('phone')
+      .value='';
+
+    document
+      .getElementById('email')
+      .value='';
+
 
     currentCustomer=c;
 
-    document.getElementById('name').value='';
-    document.getElementById('phone').value='';
-    document.getElementById('email').value='';
 
     renderStaffCustomer();
 
-    toast('✅ Δημιουργήθηκε πελάτης');
+
+    toast(
+      '✅ Δημιουργήθηκε πελάτης'
+    );
+
 
   }catch(e){
+
     console.error(e);
-    alert('Δεν αποθηκεύτηκε ο πελάτης.');
+
+    alert(
+      'Δεν αποθηκεύτηκε ο πελάτης.'
+    );
+
   }
+
 }
+
 
 async function saveCustomer(c){
+
   if(!accessToken){
-    throw new Error('No staff login');
+
+    throw new Error(
+      'No staff login'
+    );
+
   }
+
 
   const payload={
+
     loyalty_code:c.id,
+
     name:c.name,
-    phone:c.phone||null,
-    email:c.email||null,
-    stamps:c.coffees,
-    rewards_available:c.rewards,
-    lifetime_coffees:c.total,
-    lifetime_rewards:c.lifetimeRewards,
+
+    phone:
+      c.phone || null,
+
+    email:
+      c.email || null,
+
+    stamps:
+      Number(c.coffees)||0,
+
+    rewards_available:
+      Number(c.rewards)||0,
+
+    lifetime_coffees:
+      Number(c.total)||0,
+
+    lifetime_rewards:
+      Number(c.lifetimeRewards)||0,
+
     active:true
+
   };
 
-  const r=await fetch(
-    SUPABASE_URL+
-    '/rest/v1/customers?on_conflict=loyalty_code',
-    {
-      method:'POST',
-      headers:authHeaders({
-        'Content-Type':'application/json',
-        'Prefer':'resolution=merge-duplicates,return=minimal'
-      }),
-      body:JSON.stringify(payload)
-    }
-  );
+
+  const r=
+    await fetch(
+
+      SUPABASE_URL+
+      '/rest/v1/customers?on_conflict=loyalty_code',
+
+      {
+
+        method:'POST',
+
+        headers:
+          authHeaders({
+
+            'Content-Type':
+              'application/json',
+
+            'Prefer':
+              'resolution=merge-duplicates,return=minimal'
+
+          }),
+
+        body:
+          JSON.stringify(payload)
+
+      }
+
+    );
+
 
   if(!r.ok){
-    throw new Error(await r.text());
+
+    throw new Error(
+      await r.text()
+    );
+
   }
+
 }
 
+
 async function showCustomers(){
+
   if(!accessToken){
+
     only('login');
+
     return;
+
   }
+
 
   only('customers');
 
-  const list=document.getElementById('list');
 
-  list.innerHTML='<p class="small">Φόρτωση…</p>';
+  const list=
+    document.getElementById('list');
+
+
+  list.innerHTML=
+    '<p class="small">Φόρτωση…</p>';
+
 
   try{
-    const r=await fetch(
-      SUPABASE_URL+
-      '/rest/v1/customers?active=eq.true&select=*&order=created_at.desc',
-      {
-        headers:authHeaders()
-      }
-    );
+
+    const r=
+      await fetch(
+
+        SUPABASE_URL+
+        '/rest/v1/customers?active=eq.true&select=*&order=created_at.desc',
+
+        {
+          headers:
+            authHeaders()
+        }
+
+      );
+
 
     if(!r.ok){
-      throw new Error(await r.text());
+
+      throw new Error(
+        await r.text()
+      );
+
     }
 
-    const rows=await r.json();
+
+    const rows=
+      await r.json();
+
 
     list.innerHTML='';
 
+
     if(!rows.length){
+
       list.innerHTML=
-      '<p class="small">Δεν υπάρχουν πελάτες.</p>';
+        '<p class="small">Δεν υπάρχουν πελάτες.</p>';
+
       return;
+
     }
 
-    rows.forEach(row=>{
-      const c=dbCustomer(row);
 
-      const d=document.createElement('div');
+    rows.forEach(row=>{
+
+      const c=
+        dbCustomer(row);
+
+
+      const d=
+        document.createElement('div');
+
+
       d.className='row';
 
-      const b=document.createElement('button');
+
+      const b=
+        document.createElement('button');
+
+
       b.className='link';
+
       b.textContent=c.name;
 
+
       b.onclick=()=>{
+
         currentCustomer=c;
+
         renderStaffCustomer();
+
       };
 
-      const s=document.createElement('span');
-      s.textContent=c.coffees+'/5';
+
+      const s=
+        document.createElement('span');
+
+
+      s.textContent=
+        c.coffees+'/5';
+
 
       d.appendChild(b);
+
       d.appendChild(s);
 
       list.appendChild(d);
+
     });
 
+
   }catch(e){
+
     console.error(e);
+
     list.innerHTML=
-    '<p class="small">Σφάλμα φόρτωσης.</p>';
+      '<p class="small">Σφάλμα φόρτωσης.</p>';
+
   }
+
 }
 
-function fillCups(element,count){
-  element.innerHTML='';
-
-  for(let i=0;i<5;i++){
-    const d=document.createElement('div');
-
-    d.className='cup'+(i<count?' on':'');
-
-    d.textContent=i<count?'☕':'';
-
-    element.appendChild(d);
-  }
-}
 
 function renderStaffCustomer(){
-  const c=currentCustomer;
 
-  if(!c)return;
+  const c=
+    currentCustomer;
 
-  document.getElementById('staffName').textContent=c.name;
 
-  document.getElementById('staffContact').textContent=
-    [c.phone,c.email].filter(Boolean).join(' · ');
+  if(!c){
 
-  document.getElementById('staffProgress').textContent=
-    c.coffees+'/5';
+    showCustomers();
 
-  document.getElementById('staffRewards').textContent=
-    c.rewards;
+    return;
 
-  document.getElementById('staffTotal').textContent=
-    c.total;
+  }
+
+
+  document
+    .getElementById('staffName')
+    .textContent=
+      c.name;
+
+
+  document
+    .getElementById('staffContact')
+    .textContent=
+      [c.phone,c.email]
+        .filter(Boolean)
+        .join(' · ');
+
+
+  document
+    .getElementById('staffProgress')
+    .textContent=
+      c.coffees+'/5';
+
+
+  document
+    .getElementById('staffRewards')
+    .textContent=
+      c.rewards;
+
+
+  document
+    .getElementById('staffTotal')
+    .textContent=
+      c.total;
+
 
   fillCups(
-    document.getElementById('staffCups'),
+    document
+      .getElementById('staffCups'),
     c.coffees
   );
 
-  const hasReward=c.rewards>0;
 
-  document.getElementById('staffRewardBox')
-  .classList.toggle('hidden',!hasReward);
+  const hasReward=
+    c.rewards>0;
 
-  document.getElementById('redeemButton')
-  .classList.toggle('hidden',!hasReward);
+
+  document
+    .getElementById('staffRewardBox')
+    .classList
+    .toggle(
+      'hidden',
+      !hasReward
+    );
+
+
+  document
+    .getElementById('redeemButton')
+    .classList
+    .toggle(
+      'hidden',
+      !hasReward
+    );
+
 
   const url=
     SITE_URL+
     '?customer='+
     encodeURIComponent(c.id);
 
-  document.getElementById('staffQR').src=
-    'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data='+
-    encodeURIComponent(url);
+
+  document
+    .getElementById('staffQR')
+    .src=
+
+      'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data='+
+      encodeURIComponent(url);
+
 
   only('staffCustomer');
+
 }
 
+
 async function addCoffee(){
-  if(!accessToken||!currentCustomer)return;
 
-  const next={...currentCustomer};
+  if(
+    !accessToken ||
+    !currentCustomer
+  ){
 
-  next.coffees++;
-  next.total++;
+    return;
+
+  }
+
+
+  const next={
+    ...currentCustomer
+  };
+
+
+  next.coffees += 1;
+
+  next.total += 1;
+
 
   let earned=false;
 
+
   if(next.coffees>=5){
+
     next.coffees=0;
-    next.rewards++;
-    next.lifetimeRewards++;
+
+    next.rewards += 1;
+
+    next.lifetimeRewards += 1;
+
     earned=true;
+
   }
 
+
   try{
+
     await saveCustomer(next);
+
 
     currentCustomer=next;
 
+
     renderStaffCustomer();
+
 
     toast(
+
       earned
-      ?'🎁 Κερδήθηκε δωρεάν καφές!'
-      :'☕ Προστέθηκε καφές'
+
+      ? '🎁 Κερδήθηκε δωρεάν καφές!'
+
+      : '☕ Προστέθηκε καφές'
+
     );
 
+
   }catch(e){
+
     console.error(e);
-    alert('Δεν αποθηκεύτηκε η αλλαγή.');
+
+    alert(
+      'Δεν αποθηκεύτηκε η αλλαγή.'
+    );
+
   }
+
 }
 
+
 async function redeem(){
+
   if(
-    !accessToken||
-    !currentCustomer||
+    !accessToken ||
+    !currentCustomer ||
     currentCustomer.rewards<1
   ){
+
     return;
+
   }
 
+
   const next={
+
     ...currentCustomer,
-    rewards:currentCustomer.rewards-1
+
+    rewards:
+      currentCustomer.rewards-1
+
   };
 
+
   try{
+
     await saveCustomer(next);
+
 
     currentCustomer=next;
 
+
     renderStaffCustomer();
 
-    toast('✅ Το δώρο εξαργυρώθηκε');
 
-  }catch(e){
-    console.error(e);
-    alert('Δεν αποθηκεύτηκε η εξαργύρωση.');
-  }
-}
-
-async function deleteCustomer(){
-  if(!accessToken||!currentCustomer){
-    return;
-  }
-
-  const ok=confirm(
-    'Να διαγραφεί οριστικά ο πελάτης "'+
-    currentCustomer.name+
-    '";'
-  );
-
-  if(!ok){
-    return;
-  }
-
-  try{
-    const r=await fetch(
-      SUPABASE_URL+
-      '/rest/v1/customers?loyalty_code=eq.'+
-      encodeURIComponent(currentCustomer.id),
-      {
-        method:'DELETE',
-        headers:authHeaders({
-          'Prefer':'return=minimal'
-        })
-      }
+    toast(
+      '✅ Το δώρο εξαργυρώθηκε'
     );
 
+
+  }catch(e){
+
+    console.error(e);
+
+    alert(
+      'Δεν αποθηκεύτηκε η εξαργύρωση.'
+    );
+
+  }
+
+}
+
+
+async function deleteCustomer(){
+
+  if(
+    !accessToken ||
+    !currentCustomer
+  ){
+
+    return;
+
+  }
+
+
+  const customerName=
+    currentCustomer.name;
+
+
+  const confirmed=
+    window.confirm(
+
+      'Οριστική διαγραφή του πελάτη "'+
+      customerName+
+      '";\n\nΗ ενέργεια δεν αναιρείται.'
+
+    );
+
+
+  if(!confirmed){
+
+    return;
+
+  }
+
+
+  const confirmedAgain=
+    window.confirm(
+
+      'Είσαι σίγουρος ότι θέλεις να διαγράψεις οριστικά τον πελάτη;'
+
+    );
+
+
+  if(!confirmedAgain){
+
+    return;
+
+  }
+
+
+  try{
+
+    const r=
+      await fetch(
+
+        SUPABASE_URL+
+        '/rest/v1/customers?loyalty_code=eq.'+
+        encodeURIComponent(
+          currentCustomer.id
+        ),
+
+        {
+
+          method:'DELETE',
+
+          headers:
+            authHeaders({
+
+              'Prefer':
+                'return=minimal'
+
+            })
+
+        }
+
+      );
+
+
     if(!r.ok){
-      throw new Error(await r.text());
+
+      throw new Error(
+        await r.text()
+      );
+
     }
+
 
     currentCustomer=null;
 
-    toast('🗑 Ο πελάτης διαγράφηκε');
+
+    toast(
+      '🗑 Ο πελάτης διαγράφηκε'
+    );
+
 
     await showCustomers();
 
+
   }catch(e){
+
     console.error(e);
-    alert('Δεν ήταν δυνατή η διαγραφή του πελάτη.');
+
+    alert(
+      'Δεν ήταν δυνατή η διαγραφή.'
+    );
+
   }
+
 }
 
-async function loadPublicCard(code){
+
+async function loadPublicCard(
+  code,
+  silent=false
+){
+
   try{
-    const r=await fetch(
-      SUPABASE_URL+
-      '/rest/v1/rpc/get_public_customer',
-      {
-        method:'POST',
-        headers:publicHeaders({
-          'Content-Type':'application/json'
-        }),
-        body:JSON.stringify({
-          p_loyalty_code:code
-        })
-      }
-    );
+
+    const r=
+      await fetch(
+
+        SUPABASE_URL+
+        '/rest/v1/rpc/get_public_customer',
+
+        {
+
+          method:'POST',
+
+          headers:
+            publicHeaders({
+
+              'Content-Type':
+                'application/json'
+
+            }),
+
+          body:
+            JSON.stringify({
+
+              p_loyalty_code:
+                code
+
+            })
+
+        }
+
+      );
+
 
     if(!r.ok){
-      throw new Error(await r.text());
+
+      throw new Error(
+        await r.text()
+      );
+
     }
 
-    const rows=await r.json();
+
+    const rows=
+      await r.json();
+
 
     if(!rows.length){
-      alert('Η κάρτα δεν βρέθηκε.');
+
+      if(!silent){
+
+        alert(
+          'Η κάρτα δεν βρέθηκε ή έχει διαγραφεί.'
+        );
+
+      }
+
       return;
+
     }
 
-    const c=rows[0];
 
-    document.getElementById('publicName').textContent=
-      c.name||'Πελάτης';
+    const c=
+      rows[0];
 
-    document.getElementById('publicProgress').textContent=
-      (Number(c.stamps)||0)+'/5';
 
-    document.getElementById('publicRewards').textContent=
-      Number(c.rewards_available)||0;
+    document
+      .getElementById('publicName')
+      .textContent=
+        c.name || 'Πελάτης';
 
-    document.getElementById('publicTotal').textContent=
-      Number(c.lifetime_coffees)||0;
+
+    document
+      .getElementById('publicProgress')
+      .textContent=
+        (Number(c.stamps)||0)+
+        '/5';
+
+
+    document
+      .getElementById('publicRewards')
+      .textContent=
+        Number(
+          c.rewards_available
+        )||0;
+
+
+    document
+      .getElementById('publicTotal')
+      .textContent=
+        Number(
+          c.lifetime_coffees
+        )||0;
+
 
     fillCups(
-      document.getElementById('publicCups'),
+
+      document
+        .getElementById('publicCups'),
+
       Number(c.stamps)||0
+
     );
 
-    document.getElementById('publicRewardBox')
-    .classList.toggle(
-      'hidden',
-      !(Number(c.rewards_available)>0)
-    );
+
+    document
+      .getElementById('publicRewardBox')
+      .classList
+      .toggle(
+
+        'hidden',
+
+        !(
+          Number(
+            c.rewards_available
+          )>0
+        )
+
+      );
+
 
     only('publicCard');
 
+
   }catch(e){
+
     console.error(e);
-    alert('Δεν ήταν δυνατή η φόρτωση της κάρτας.');
+
+
+    if(!silent){
+
+      alert(
+        'Δεν ήταν δυνατή η φόρτωση της κάρτας.'
+      );
+
+    }
+
   }
+
 }
 
+
 async function startApp(){
+
   const customerCode=
+
     new URLSearchParams(
       window.location.search
     ).get('customer');
 
+
   if(customerCode){
-    await loadPublicCard(customerCode);
+
+    await loadPublicCard(
+      customerCode
+    );
+
+
+    publicRefreshTimer=
+      setInterval(
+        ()=>loadPublicCard(
+          customerCode,
+          true
+        ),
+        5000
+      );
+
+
     return;
+
   }
+
 
   accessToken=
     sessionStorage.getItem(
       'natuar_staff_token'
     );
 
+
   if(accessToken){
+
     showStaffHome();
+
   }else{
+
     only('login');
+
   }
+
 }
+
+
+/* PWA */
+
+if(
+  'serviceWorker'
+  in navigator
+){
+
+  window.addEventListener(
+    'load',
+    ()=>{
+
+      navigator
+        .serviceWorker
+        .register('./sw.js')
+        .catch(console.error);
+
+    }
+  );
+
+}
+
 
 startApp();
 
