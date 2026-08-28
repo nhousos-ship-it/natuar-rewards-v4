@@ -263,7 +263,20 @@ toast('✅ Εξαργυρώθηκε')
 })
 }
 
-home()
+const customerFromQR = new URLSearchParams(window.location.search).get('customer');
+
+if (customerFromQR) {
+  const customer = getAll().find(c => c.id === customerFromQR);
+
+  if (customer) {
+    currentId = customer.id;
+    renderDetail();
+  } else {
+    home();
+  }
+} else {
+  home();
+}
 </script>
 
 </body>
