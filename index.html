@@ -7,7 +7,6 @@
 <title>NATUAR Rewards</title>
 
 <meta name="theme-color" content="#F4EFE7">
-
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="NATUAR">
@@ -95,6 +94,12 @@ h2{font-size:30px}
 .secondary{
   background:var(--soft);
   color:var(--blue);
+}
+
+.scanbtn{
+  background:#171717;
+  color:#fff;
+  font-size:18px;
 }
 
 .danger{
@@ -208,7 +213,7 @@ input{
   padding:14px;
   border-radius:14px;
   text-align:center;
-  z-index:20;
+  z-index:30;
 }
 
 .customer-badge{
@@ -225,6 +230,51 @@ input{
   background:#eee;
   margin:20px 0 8px;
 }
+
+/* SCANNER */
+
+.scannerOverlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.86);
+  z-index:100;
+  padding:
+    max(20px,env(safe-area-inset-top))
+    16px
+    max(20px,env(safe-area-inset-bottom));
+  overflow:auto;
+}
+
+.scannerBox{
+  max-width:520px;
+  margin:auto;
+  background:#fff;
+  border-radius:24px;
+  padding:18px;
+}
+
+.scannerTitle{
+  font-family:Georgia,serif;
+  font-size:28px;
+  margin:4px 0 8px;
+}
+
+#reader{
+  width:100%;
+  overflow:hidden;
+  border-radius:18px;
+  margin-top:15px;
+}
+
+#reader video{
+  border-radius:18px;
+}
+
+.scannerHelp{
+  text-align:center;
+  opacity:.65;
+  margin:12px 0;
+}
 </style>
 </head>
 
@@ -237,7 +287,9 @@ input{
 <div id="notice" class="notice hidden"></div>
 
 <section id="login" class="card hidden">
+
   <div class="kicker">STAFF</div>
+
   <h2>Είσοδος προσωπικού</h2>
 
   <input
@@ -252,28 +304,55 @@ input{
     autocomplete="current-password"
     placeholder="Κωδικός">
 
-  <button class="btn primary" onclick="staffLogin()">
+  <button
+    class="btn primary"
+    onclick="staffLogin()">
+
     Είσοδος
+
   </button>
+
 </section>
 
 
 <section id="staffHome" class="card hidden">
 
-  <div class="kicker">NATUAR STAFF</div>
+  <div class="kicker">
+    NATUAR STAFF
+  </div>
 
   <h1>Rewards</h1>
 
-  <button class="btn primary" onclick="showCreate()">
+  <button
+    class="btn scanbtn"
+    onclick="openScanner()">
+
+    📷 Σάρωση QR πελάτη
+
+  </button>
+
+  <button
+    class="btn primary"
+    onclick="showCreate()">
+
     + Νέος πελάτης
+
   </button>
 
-  <button class="btn secondary" onclick="showCustomers()">
+  <button
+    class="btn secondary"
+    onclick="showCustomers()">
+
     👥 Πελάτες
+
   </button>
 
-  <button class="btn secondary" onclick="logout()">
+  <button
+    class="btn secondary"
+    onclick="logout()">
+
     Έξοδος προσωπικού
+
   </button>
 
 </section>
@@ -281,8 +360,12 @@ input{
 
 <section id="create" class="card hidden">
 
-  <button class="back" onclick="showStaffHome()">
+  <button
+    class="back"
+    onclick="showStaffHome()">
+
     ← Πίσω
+
   </button>
 
   <h2>Νέος πελάτης</h2>
@@ -331,9 +414,9 @@ input{
 
   <button
     class="back"
-    onclick="showCustomers()">
+    onclick="showStaffHome()">
 
-    ← Πελάτες
+    ← Αρχική
 
   </button>
 
@@ -400,7 +483,7 @@ input{
   </div>
 
   <p class="small">
-    Το QR ανοίγει κάρτα μόνο για προβολή.
+    Το QR του πελάτη ανοίγει κάρτα μόνο για προβολή.
   </p>
 
   <div class="separator"></div>
@@ -459,6 +542,37 @@ input{
 </div>
 
 
+<div
+  id="scannerOverlay"
+  class="scannerOverlay hidden">
+
+  <div class="scannerBox">
+
+    <div class="scannerTitle">
+      Σάρωση πελάτη
+    </div>
+
+    <div class="scannerHelp">
+      Βάλε το QR του πελάτη μέσα στο πλαίσιο.
+    </div>
+
+    <div id="reader"></div>
+
+    <button
+      class="btn secondary"
+      onclick="closeScanner()">
+
+      ✕ Κλείσιμο κάμερας
+
+    </button>
+
+  </div>
+
+</div>
+
+
+<script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+
 <script>
 
 const SUPABASE_URL =
@@ -470,9 +584,12 @@ const SUPABASE_KEY =
 const SITE_URL =
 'https://nhousos-ship-it.github.io/natuar-rewards-v4/';
 
+
 let accessToken=null;
 let currentCustomer=null;
 let publicRefreshTimer=null;
+let qrScanner=null;
+let scannerBusy=false;
 
 
 function only(id){
@@ -625,6 +742,8 @@ function fillCups(element,count){
 }
 
 
+/* STAFF LOGIN */
+
 async function staffLogin(){
 
   const email=
@@ -638,6 +757,7 @@ async function staffLogin(){
       .getElementById('staffPassword')
       .value;
 
+
   if(!email || !password){
 
     toast(
@@ -647,6 +767,7 @@ async function staffLogin(){
     return;
 
   }
+
 
   try{
 
@@ -743,7 +864,6 @@ function showStaffHome(){
 function logout(){
 
   accessToken=null;
-
   currentCustomer=null;
 
   sessionStorage.removeItem(
@@ -770,98 +890,7 @@ function showCreate(){
 }
 
 
-async function createCustomer(){
-
-  const name=
-    document
-      .getElementById('name')
-      .value
-      .trim();
-
-  const phone=
-    document
-      .getElementById('phone')
-      .value
-      .trim();
-
-  const email=
-    document
-      .getElementById('email')
-      .value
-      .trim();
-
-
-  if(!name){
-
-    toast('Γράψε όνομα');
-
-    return;
-
-  }
-
-
-  const c={
-
-    id:uuid(),
-
-    name,
-
-    phone,
-
-    email,
-
-    coffees:0,
-
-    rewards:0,
-
-    total:0,
-
-    lifetimeRewards:0
-
-  };
-
-
-  try{
-
-    await saveCustomer(c);
-
-
-    document
-      .getElementById('name')
-      .value='';
-
-    document
-      .getElementById('phone')
-      .value='';
-
-    document
-      .getElementById('email')
-      .value='';
-
-
-    currentCustomer=c;
-
-
-    renderStaffCustomer();
-
-
-    toast(
-      '✅ Δημιουργήθηκε πελάτης'
-    );
-
-
-  }catch(e){
-
-    console.error(e);
-
-    alert(
-      'Δεν αποθηκεύτηκε ο πελάτης.'
-    );
-
-  }
-
-}
-
+/* CUSTOMER DATABASE */
 
 async function saveCustomer(c){
 
@@ -943,6 +972,91 @@ async function saveCustomer(c){
 }
 
 
+async function createCustomer(){
+
+  const name=
+    document
+      .getElementById('name')
+      .value
+      .trim();
+
+  const phone=
+    document
+      .getElementById('phone')
+      .value
+      .trim();
+
+  const email=
+    document
+      .getElementById('email')
+      .value
+      .trim();
+
+
+  if(!name){
+
+    toast('Γράψε όνομα');
+
+    return;
+
+  }
+
+
+  const c={
+
+    id:uuid(),
+
+    name,
+    phone,
+    email,
+
+    coffees:0,
+    rewards:0,
+    total:0,
+    lifetimeRewards:0
+
+  };
+
+
+  try{
+
+    await saveCustomer(c);
+
+    document
+      .getElementById('name')
+      .value='';
+
+    document
+      .getElementById('phone')
+      .value='';
+
+    document
+      .getElementById('email')
+      .value='';
+
+
+    currentCustomer=c;
+
+    renderStaffCustomer();
+
+    toast(
+      '✅ Δημιουργήθηκε πελάτης'
+    );
+
+
+  }catch(e){
+
+    console.error(e);
+
+    alert(
+      'Δεν αποθηκεύτηκε ο πελάτης.'
+    );
+
+  }
+
+}
+
+
 async function showCustomers(){
 
   if(!accessToken){
@@ -1012,17 +1126,14 @@ async function showCustomers(){
       const c=
         dbCustomer(row);
 
-
       const d=
         document.createElement('div');
-
 
       d.className='row';
 
 
       const b=
         document.createElement('button');
-
 
       b.className='link';
 
@@ -1040,7 +1151,6 @@ async function showCustomers(){
 
       const s=
         document.createElement('span');
-
 
       s.textContent=
         c.coffees+'/5';
@@ -1075,7 +1185,7 @@ function renderStaffCustomer(){
 
   if(!c){
 
-    showCustomers();
+    showStaffHome();
 
     return;
 
@@ -1162,6 +1272,8 @@ function renderStaffCustomer(){
 }
 
 
+/* ADD COFFEE */
+
 async function addCoffee(){
 
   if(
@@ -1204,9 +1316,7 @@ async function addCoffee(){
 
     await saveCustomer(next);
 
-
     currentCustomer=next;
-
 
     renderStaffCustomer();
 
@@ -1235,6 +1345,8 @@ async function addCoffee(){
 }
 
 
+/* REDEEM */
+
 async function redeem(){
 
   if(
@@ -1262,12 +1374,9 @@ async function redeem(){
 
     await saveCustomer(next);
 
-
     currentCustomer=next;
 
-
     renderStaffCustomer();
-
 
     toast(
       '✅ Το δώρο εξαργυρώθηκε'
@@ -1286,6 +1395,8 @@ async function redeem(){
 
 }
 
+
+/* DELETE */
 
 async function deleteCustomer(){
 
@@ -1314,9 +1425,7 @@ async function deleteCustomer(){
 
 
   if(!confirmed){
-
     return;
-
   }
 
 
@@ -1329,9 +1438,7 @@ async function deleteCustomer(){
 
 
   if(!confirmedAgain){
-
     return;
-
   }
 
 
@@ -1374,13 +1481,11 @@ async function deleteCustomer(){
 
     currentCustomer=null;
 
-
     toast(
       '🗑 Ο πελάτης διαγράφηκε'
     );
 
-
-    await showCustomers();
+    showStaffHome();
 
 
   }catch(e){
@@ -1395,6 +1500,303 @@ async function deleteCustomer(){
 
 }
 
+
+/* QR SCANNER */
+
+async function openScanner(){
+
+  if(!accessToken){
+
+    only('login');
+
+    return;
+
+  }
+
+
+  if(
+    typeof Html5Qrcode ===
+    'undefined'
+  ){
+
+    alert(
+      'Δεν φορτώθηκε ο σαρωτής QR. Έλεγξε τη σύνδεση στο internet.'
+    );
+
+    return;
+
+  }
+
+
+  scannerBusy=false;
+
+
+  document
+    .getElementById('scannerOverlay')
+    .classList
+    .remove('hidden');
+
+
+  try{
+
+    qrScanner=
+      new Html5Qrcode(
+        'reader'
+      );
+
+
+    await qrScanner.start(
+
+      {
+        facingMode:'environment'
+      },
+
+      {
+        fps:10,
+
+        qrbox:{
+          width:250,
+          height:250
+        },
+
+        aspectRatio:1
+      },
+
+      async decodedText=>{
+
+        if(scannerBusy){
+          return;
+        }
+
+        scannerBusy=true;
+
+        await handleScannedQR(
+          decodedText
+        );
+
+      },
+
+      ()=>{}
+
+    );
+
+
+  }catch(e){
+
+    console.error(e);
+
+    document
+      .getElementById('scannerOverlay')
+      .classList
+      .add('hidden');
+
+
+    alert(
+      'Δεν άνοιξε η κάμερα. Πάτησε "Να επιτρέπεται" όταν το iPhone ζητήσει πρόσβαση στην κάμερα.'
+    );
+
+  }
+
+}
+
+
+async function closeScanner(){
+
+  try{
+
+    if(qrScanner){
+
+      await qrScanner.stop();
+
+      await qrScanner.clear();
+
+    }
+
+  }catch(e){
+
+    console.log(e);
+
+  }
+
+
+  qrScanner=null;
+  scannerBusy=false;
+
+
+  document
+    .getElementById('scannerOverlay')
+    .classList
+    .add('hidden');
+
+}
+
+
+function extractCustomerCode(
+  text
+){
+
+  if(!text){
+    return null;
+  }
+
+
+  const value=
+    String(text).trim();
+
+
+  try{
+
+    const u=
+      new URL(value);
+
+    const code=
+      u.searchParams
+       .get('customer');
+
+    if(code){
+      return code;
+    }
+
+  }catch(e){}
+
+
+  const uuidPattern=
+    /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
+
+  if(
+    uuidPattern.test(value)
+  ){
+
+    return value;
+
+  }
+
+
+  return null;
+
+}
+
+
+async function handleScannedQR(
+  decodedText
+){
+
+  const code=
+    extractCustomerCode(
+      decodedText
+    );
+
+
+  if(!code){
+
+    scannerBusy=false;
+
+    toast(
+      'Αυτό δεν είναι QR πελάτη NATUAR'
+    );
+
+    return;
+
+  }
+
+
+  await closeScanner();
+
+  await loadStaffCustomerByCode(
+    code
+  );
+
+}
+
+
+async function loadStaffCustomerByCode(
+  code
+){
+
+  if(!accessToken){
+
+    only('login');
+
+    return;
+
+  }
+
+
+  try{
+
+    const r=
+      await fetch(
+
+        SUPABASE_URL+
+        '/rest/v1/customers?loyalty_code=eq.'+
+        encodeURIComponent(code)+
+        '&active=eq.true&select=*&limit=1',
+
+        {
+          headers:
+            authHeaders()
+        }
+
+      );
+
+
+    if(!r.ok){
+
+      throw new Error(
+        await r.text()
+      );
+
+    }
+
+
+    const rows=
+      await r.json();
+
+
+    if(!rows.length){
+
+      alert(
+        'Ο πελάτης δεν βρέθηκε.'
+      );
+
+      showStaffHome();
+
+      return;
+
+    }
+
+
+    currentCustomer=
+      dbCustomer(
+        rows[0]
+      );
+
+
+    renderStaffCustomer();
+
+
+    toast(
+      '✅ Βρέθηκε ο πελάτης'
+    );
+
+
+  }catch(e){
+
+    console.error(e);
+
+    alert(
+      'Δεν ήταν δυνατή η φόρτωση του πελάτη.'
+    );
+
+    showStaffHome();
+
+  }
+
+}
+
+
+/* PUBLIC CUSTOMER CARD */
 
 async function loadPublicCard(
   code,
@@ -1542,6 +1944,8 @@ async function loadPublicCard(
 }
 
 
+/* START */
+
 async function startApp(){
 
   const customerCode=
@@ -1560,11 +1964,14 @@ async function startApp(){
 
     publicRefreshTimer=
       setInterval(
+
         ()=>loadPublicCard(
           customerCode,
           true
         ),
+
         5000
+
       );
 
 
