@@ -97,7 +97,65 @@ input{width:100%;padding:14px;border-radius:14px;border:1px solid #ddd4c8;margin
 <script>
 const KEY='natuar_customers_v4';
 let currentId=null;
+const SUPABASE_URL='https://kpakafhjekumuosbiaoq.supabase.co';
+const SUPABASE_KEY='sb_publishable_Tu4wJxyDSlrCer81Urk1Xw_i5j9bw-P';
 
+async function saveCustomerToSupabase(c){
+  const r = await fetch(
+    SUPABASE_URL + '/rest/v1/customers?on_conflict=id',
+    {
+      method:'POST',
+      headers:{
+        'apikey':SUPABASE_KEY,
+        'Authorization':'Bearer '+SUPABASE_KEY,
+        'Content-Type':'application/json',
+        'Prefer':'resolution=merge-duplicates,return=minimal'
+      },
+      body:JSON.stringify({
+        id:c.id,
+        name:c.name,
+        phone:c.phone || null,
+        stamps:c.coffees || 0,
+        rewards_available:c.rewards || 0,
+        lifetime_coffees:c.total || 0,
+        active:true
+      })
+    }
+  );
+
+  if(!r.ok) console.error(await r.text());
+}
+
+async function loadCustomerFromSupabase(id){
+  const r = await fetch(
+    SUPABASE_URL +
+    '/rest/v1/customers?id=eq.' +
+    encodeURIComponent(id) +
+    '&select=*',
+    {
+      headers:{
+        'apikey':SUPABASE_KEY,
+        'Authorization':'Bearer '+SUPABASE_KEY
+      }
+    }
+  );
+
+  if(!r.ok) return null;
+
+  const rows=await r.json();
+  if(!rows.length) return null;
+
+  const x=rows[0];
+
+  return {
+    id:x.id,
+    name:x.name,
+    phone:x.phone || '',
+    coffees:x.stamps || 0,
+    rewards:x.rewards_available || 0,
+    total:x.lifetime_coffees || 0
+  };
+}
 const SUPABASE_URL='https://kpakafhjekumuosbiaoq.supabase.co';
 const SUPABASE_KEY='sb_publishable_Tu4wJxyDSlrCer81Urk1Xw_i5j9bw-P';
 
@@ -161,7 +219,7 @@ total:0
 
 a.push(c);
 setAll(a);
-
+saveCustomertoSupabase(c);
 document.getElementById('name').value='';
 document.getElementById('phone').value='';
 
@@ -237,6 +295,7 @@ if(i<0)return;
 
 fn(a[i]);
 setAll(a);
+saveCustomerToSupabase(a[i]);
 openDetail(currentId)
 }
 
@@ -264,7 +323,8 @@ return toast('Δεν υπάρχει δώρο');
 mutate(c=>{
 c.rewards--;
 toast('✅ Εξαργυρώθηκε')
-})
+}) 
+saveCustomerToSupabase(c);
 }
 
 const customerFromQR = new URLSearchParams(window.location.search).get('customer');
