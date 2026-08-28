@@ -219,7 +219,9 @@ cups.appendChild(x)
 
 document.getElementById('qrimg').src=
 'https://api.qrserver.com/v1/create-qr-code/?size=220x220&data='+
-encodeURIComponent('NATUAR:'+c.id);
+document.getElementById('qrimg').src=
+'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data='+
+encodeURIComponent('https://natuar-rewards-v4.vercel.app/?customer='+c.id);
 
 only('detail')
 }
