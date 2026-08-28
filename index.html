@@ -7,7 +7,7 @@
 
 <style>
 :root{
-  --bg:#f5f0e7;
+  --bg:#f4efe7;
   --card:#ffffff;
   --ink:#171717;
   --soft:#ece5da;
@@ -26,52 +26,55 @@ body{
 .app{
   max-width:540px;
   margin:auto;
-  padding:30px 18px 60px;
+  padding:28px 18px 50px;
 }
 
 .brand{
   font-family:Georgia,serif;
   font-size:32px;
-  letter-spacing:5px;
-  margin:6px 0 26px;
+  letter-spacing:6px;
+  margin:8px 0 28px;
 }
 
 .card{
   background:#fff;
   border-radius:24px;
-  padding:28px 22px;
-  box-shadow:0 12px 35px rgba(0,0,0,.06);
+  padding:22px;
+  box-shadow:0 12px 30px rgba(0,0,0,.08);
 }
 
 h1,h2{
   font-family:Georgia,serif;
-  margin:0;
+  margin:0 0 16px;
 }
 
 h1{
-  font-size:44px;
-  line-height:1.04;
-  margin:14px 0 28px;
+  font-size:38px;
+  line-height:1.05;
 }
 
 h2{
-  font-size:30px;
+  font-size:28px;
+}
+
+.kicker{
+  font-size:14px;
+  opacity:.55;
   margin-bottom:18px;
 }
 
-.eyebrow{
-  font-size:14px;
-  opacity:.55;
+.hidden{
+  display:none!important;
 }
 
 .btn{
   width:100%;
   border:0;
   border-radius:16px;
-  padding:17px;
+  padding:16px;
+  margin-top:12px;
   font-size:17px;
   font-weight:700;
-  margin-top:12px;
 }
 
 .primary{
@@ -80,61 +83,53 @@ h2{
 }
 
 .secondary{
-  background:#ece5da;
-  color:#2f80ed;
-}
-
-.hidden{
-  display:none!important;
+  background:var(--soft);
+  color:var(--blue);
 }
 
 input{
   width:100%;
   padding:14px;
-  border-radius:14px;
   border:1px solid #ddd;
+  border-radius:14px;
   font-size:16px;
-  margin:7px 0;
-}
-
-.small{
-  font-size:12px;
-  opacity:.62;
+  margin:6px 0 10px;
+  background:#fff;
 }
 
 .row{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  gap:10px;
-  padding:14px 0;
+  gap:12px;
+  padding:12px 0;
   border-bottom:1px solid #eee;
 }
 
 .link{
   border:0;
   background:transparent;
+  color:var(--blue);
+  font-size:16px;
   font-weight:700;
   text-align:left;
   padding:0;
-  font-size:16px;
 }
 
 .cups{
   display:flex;
   gap:7px;
-  margin:18px 0;
+  margin:16px 0;
 }
 
 .cup{
   flex:1;
   aspect-ratio:1;
   border-radius:14px;
-  background:#eee7dd;
+  background:#e9e1d6;
   display:grid;
   place-items:center;
   font-size:20px;
-  font-weight:800;
 }
 
 .cup.on{
@@ -142,19 +137,20 @@ input{
   color:#fff;
 }
 
-.reward{
-  background:#e4efdf;
-  padding:14px;
-  border-radius:14px;
-  margin:14px 0;
-  font-weight:700;
+.stats{
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:8px;
+  margin:12px 0;
 }
 
 .qr{
   display:grid;
   place-items:center;
+  background:#fff;
+  border-radius:18px;
   padding:18px;
-  margin-top:18px;
+  margin-top:16px;
 }
 
 .qr img{
@@ -163,21 +159,43 @@ input{
   max-width:100%;
 }
 
+.small{
+  font-size:12px;
+  opacity:.62;
+  text-align:center;
+}
+
 .notice{
+  position:fixed;
+  left:16px;
+  right:16px;
+  bottom:24px;
+  max-width:500px;
+  margin:auto;
   background:#171717;
   color:#fff;
+  padding:14px 16px;
   border-radius:14px;
-  padding:12px 14px;
-  margin-bottom:14px;
+  text-align:center;
+  z-index:20;
+}
+
+.reward{
+  background:#e4efdf;
+  padding:14px;
+  border-radius:14px;
+  margin-top:12px;
+  font-weight:700;
 }
 
 .back{
   border:0;
   background:transparent;
   padding:0;
-  margin-bottom:18px;
+  margin-bottom:14px;
+  color:var(--blue);
   font-weight:700;
-  font-size:15px;
+  font-size:16px;
 }
 </style>
 </head>
@@ -186,146 +204,87 @@ input{
 
 <div class="app">
 
-<div class="brand">NATUAR</div>
+  <div class="brand">NATUAR</div>
 
-<div id="notice" class="notice hidden"></div>
+  <div id="notice" class="notice hidden"></div>
 
-<section id="home" class="card">
+  <section id="home" class="card">
+    <div class="kicker">REWARDS</div>
+    <h1>5 καφέδες.<br>Ο επόμενος δώρο.</h1>
 
-<div class="eyebrow">REWARDS</div>
+    <button class="btn primary" onclick="showCreate()">
+      + Νέος πελάτης
+    </button>
 
-<h1>
-5 καφέδες.<br>
-Ο επόμενος δώρο.
-</h1>
+    <button class="btn secondary" onclick="showCustomers()">
+      👥 Πελάτες
+    </button>
+  </section>
 
-<button
-class="btn primary"
-onclick="showCreate()">
-+ Νέος πελάτης
-</button>
+  <section id="create" class="card hidden">
+    <button class="back" onclick="home()">← Πίσω</button>
 
-<button
-class="btn secondary"
-onclick="showCustomers()">
-👥 Πελάτες
-</button>
+    <h2>Νέος πελάτης</h2>
 
-</section>
+    <input id="name" placeholder="Όνομα">
+    <input id="phone" placeholder="Τηλέφωνο" inputmode="tel">
+    <input id="email" placeholder="Email">
 
+    <button class="btn primary" onclick="createCustomer()">
+      Δημιουργία κάρτας
+    </button>
+  </section>
 
-<section id="create" class="card hidden">
+  <section id="customers" class="card hidden">
+    <button class="back" onclick="home()">← Πίσω</button>
 
-<button
-class="back"
-onclick="home()">
-← Πίσω
-</button>
+    <h2>Πελάτες</h2>
 
-<h2>Νέος πελάτης</h2>
+    <div id="list"></div>
+  </section>
 
-<input
-id="name"
-placeholder="Όνομα">
+  <section id="detail" class="card hidden">
+    <button class="back" onclick="showCustomers()">← Πελάτες</button>
 
-<input
-id="phone"
-placeholder="Τηλέφωνο"
-inputmode="tel">
+    <div class="kicker">NATUAR REWARDS</div>
 
-<button
-class="btn primary"
-onclick="createCustomer()">
-Δημιουργία κάρτας
-</button>
+    <h2 id="dname">Πελάτης</h2>
 
-</section>
+    <div id="dphone" class="kicker"></div>
 
+    <div id="cups" class="cups"></div>
 
-<section id="customers" class="card hidden">
+    <div class="stats">
+      <span>Πρόοδος</span>
+      <strong id="progress">0/5</strong>
 
-<button
-class="back"
-onclick="home()">
-← Πίσω
-</button>
+      <span>Δώρα</span>
+      <strong id="rewards">0</strong>
 
-<h2>Πελάτες</h2>
+      <span>Σύνολο καφέδων</span>
+      <strong id="totalCoffees">0</strong>
+    </div>
 
-<div id="list">
-<div class="small">Φόρτωση…</div>
-</div>
+    <div id="rewardBox" class="reward hidden">
+      🎁 Δωρεάν καφές διαθέσιμος!
+    </div>
 
-</section>
+    <button class="btn primary" onclick="addCoffee()">
+      ☕ +1 Καφές
+    </button>
 
+    <button id="redeemBtn" class="btn secondary hidden" onclick="redeem()">
+      🎁 Εξαργύρωση
+    </button>
 
-<section id="detail" class="card hidden">
+    <div class="qr">
+      <img id="qrimg" width="220" height="220" alt="QR πελάτη">
+    </div>
 
-<button
-class="back"
-onclick="home()">
-← Αρχική
-</button>
-
-<div class="eyebrow">
-NATUAR REWARDS
-</div>
-
-<h2 id="dname"></h2>
-
-<div
-id="dphone"
-class="small">
-</div>
-
-<div
-id="cups"
-class="cups">
-</div>
-
-<div
-id="status">
-</div>
-
-<div
-id="rewardBox"
-class="reward hidden">
-🎁 Δωρεάν καφές διαθέσιμος!
-</div>
-
-<button
-class="btn primary"
-onclick="addCoffee()">
-☕ +1 καφές
-</button>
-
-<button
-id="redeemBtn"
-class="btn secondary hidden"
-onclick="redeem()">
-🎁 Εξαργύρωση δώρου
-</button>
-
-<div class="qr">
-
-<img
-id="qrimg"
-width="220"
-height="220"
-alt="QR πελάτη">
+    <p class="small">Μοναδικό QR πελάτη</p>
+  </section>
 
 </div>
-
-<p
-class="small"
-style="text-align:center">
-Μοναδικό QR πελάτη
-</p>
-
-</section>
-
-</div>
-
 
 <script>
 
@@ -338,9 +297,12 @@ const SUPABASE_KEY =
 const SITE_URL =
 'https://nhousos-ship-it.github.io/natuar-rewards-v4/';
 
-let currentId = null;
 let currentCustomer = null;
 
+
+/* -----------------------------
+   UI
+----------------------------- */
 
 function only(id){
 
@@ -361,7 +323,6 @@ function only(id){
 
 function home(){
 
-  currentId = null;
   currentCustomer = null;
 
   only('home');
@@ -392,12 +353,17 @@ function toast(text){
 }
 
 
-function newCode(){
+/* -----------------------------
+   UUID
+----------------------------- */
+
+function makeUUID(){
 
   if(
     window.crypto &&
     crypto.randomUUID
   ){
+
     return crypto.randomUUID();
   }
 
@@ -412,7 +378,11 @@ function newCode(){
 }
 
 
-function headers(extra={}){
+/* -----------------------------
+   Supabase helpers
+----------------------------- */
+
+function apiHeaders(extra={}){
 
   return {
 
@@ -420,83 +390,85 @@ function headers(extra={}){
     SUPABASE_KEY,
 
     'Authorization':
-    'Bearer ' +
-    SUPABASE_KEY,
+    'Bearer ' + SUPABASE_KEY,
 
     ...extra
   };
 }
 
 
-function fromDb(x){
+function fromDatabase(row){
 
   return {
 
     db_id:
-    x.id || null,
+    row.id || null,
 
     id:
-    x.loyalty_code,
+    row.loyalty_code,
 
     name:
-    x.name || 'Πελάτης',
+    row.name || 'Πελάτης',
 
     phone:
-    x.phone || '',
+    row.phone || '',
+
+    email:
+    row.email || '',
 
     coffees:
-    Number(x.stamps) || 0,
+    Number(row.stamps) || 0,
 
     rewards:
-    Number(
-      x.rewards_available
-    ) || 0,
+    Number(row.rewards_available) || 0,
 
     total:
-    Number(
-      x.lifetime_coffees
-    ) || 0,
+    Number(row.lifetime_coffees) || 0,
 
     lifetime_rewards:
-    Number(
-      x.lifetime_rewards
-    ) || 0
+    Number(row.lifetime_rewards) || 0
   };
 }
 
 
-async function saveCustomer(c){
+/* -----------------------------
+   Save customer
+----------------------------- */
+
+async function saveCustomer(customer){
 
   const payload = {
 
     loyalty_code:
-    c.id,
+    customer.id,
 
     name:
-    c.name,
+    customer.name,
 
     phone:
-    c.phone || null,
+    customer.phone || null,
+
+    email:
+    customer.email || null,
 
     stamps:
-    Number(c.coffees) || 0,
+    Number(customer.coffees) || 0,
 
     rewards_available:
-    Number(c.rewards) || 0,
+    Number(customer.rewards) || 0,
 
     lifetime_coffees:
-    Number(c.total) || 0,
+    Number(customer.total) || 0,
 
     lifetime_rewards:
-    Number(
-      c.lifetime_rewards
-    ) || 0,
+    Number(customer.lifetime_rewards) || 0,
 
-    active:true
+    active:
+    true
   };
 
 
-  const r =
+  const response =
   await fetch(
 
     SUPABASE_URL +
@@ -508,7 +480,7 @@ async function saveCustomer(c){
       method:'POST',
 
       headers:
-      headers({
+      apiHeaders({
 
         'Content-Type':
         'application/json',
@@ -523,15 +495,15 @@ async function saveCustomer(c){
   );
 
 
-  if(!r.ok){
+  if(!response.ok){
 
-    const error =
-    await r.text();
+    const message =
+    await response.text();
 
-    console.error(error);
+    console.error(message);
 
     throw new Error(
-      'Supabase save error'
+      'Δεν έγινε αποθήκευση'
     );
   }
 
@@ -540,9 +512,13 @@ async function saveCustomer(c){
 }
 
 
+/* -----------------------------
+   Load single customer
+----------------------------- */
+
 async function loadCustomer(code){
 
-  const r =
+  const response =
   await fetch(
 
     SUPABASE_URL +
@@ -556,32 +532,96 @@ async function loadCustomer(code){
     '&select=*',
 
     {
-      headers:headers()
+      headers:
+      apiHeaders()
     }
   );
 
 
-  if(!r.ok){
+  if(!response.ok){
+
+    const message =
+    await response.text();
+
+    console.error(message);
 
     throw new Error(
-      'Supabase load error'
+      'Σφάλμα φόρτωσης πελάτη'
     );
   }
 
 
   const rows =
-  await r.json();
+  await response.json();
 
 
-  if(!rows.length){
+  if(
+    !rows ||
+    !rows.length
+  ){
 
     return null;
   }
 
 
-  return fromDb(rows[0]);
+  return fromDatabase(
+    rows[0]
+  );
 }
 
+
+/* -----------------------------
+   Load all customers
+----------------------------- */
+
+async function loadCustomers(){
+
+  const response =
+  await fetch(
+
+    SUPABASE_URL +
+
+    '/rest/v1/customers' +
+
+    '?active=eq.true' +
+
+    '&select=*' +
+
+    '&order=created_at.desc',
+
+    {
+      headers:
+      apiHeaders()
+    }
+  );
+
+
+  if(!response.ok){
+
+    const message =
+    await response.text();
+
+    console.error(message);
+
+    throw new Error(
+      'Σφάλμα λίστας πελατών'
+    );
+  }
+
+
+  const rows =
+  await response.json();
+
+
+  return rows.map(
+    fromDatabase
+  );
+}
+
+
+/* -----------------------------
+   Create customer
+----------------------------- */
 
 async function createCustomer(){
 
@@ -599,6 +639,13 @@ async function createCustomer(){
   .trim();
 
 
+  const email =
+  document
+  .getElementById('email')
+  .value
+  .trim();
+
+
   if(!name){
 
     toast('Γράψε όνομα');
@@ -607,14 +654,16 @@ async function createCustomer(){
   }
 
 
-  const c = {
+  const customer = {
 
     id:
-    newCode(),
+    makeUUID(),
 
-    name:name,
+    name,
 
-    phone:phone,
+    phone,
+
+    email,
 
     coffees:0,
 
@@ -628,36 +677,42 @@ async function createCustomer(){
 
   try{
 
-    await saveCustomer(c);
+    await saveCustomer(
+      customer
+    );
+
 
     document
     .getElementById('name')
     .value='';
+
 
     document
     .getElementById('phone')
     .value='';
 
 
-    currentId =
-    c.id;
+    document
+    .getElementById('email')
+    .value='';
+
 
     currentCustomer =
-    c;
+    customer;
 
 
     renderDetail();
 
 
     toast(
-      '✅ Δημιουργήθηκε QR πελάτη'
+      '✅ Δημιουργήθηκε πελάτης'
     );
 
   }
 
-  catch(e){
+  catch(error){
 
-    console.error(e);
+    console.error(error);
 
     alert(
       'Δεν αποθηκεύτηκε ο πελάτης.'
@@ -665,6 +720,10 @@ async function createCustomer(){
   }
 }
 
+
+/* -----------------------------
+   Customer list
+----------------------------- */
 
 async function showCustomers(){
 
@@ -677,59 +736,29 @@ async function showCustomers(){
 
 
   list.innerHTML =
-  '<div class="small">Φόρτωση…</div>';
+  '<p class="small">Φόρτωση…</p>';
 
 
   try{
 
-    const r =
-    await fetch(
-
-      SUPABASE_URL +
-
-      '/rest/v1/customers' +
-
-      '?active=eq.true' +
-
-      '&select=*' +
-
-      '&order=created_at.desc',
-
-      {
-        headers:headers()
-      }
-    );
-
-
-    if(!r.ok){
-
-      throw new Error(
-        'Customer list error'
-      );
-    }
-
-
-    const rows =
-    await r.json();
+    const customers =
+    await loadCustomers();
 
 
     list.innerHTML='';
 
 
-    if(!rows.length){
+    if(!customers.length){
 
       list.innerHTML =
-      '<div class="small">Δεν υπάρχουν πελάτες ακόμη.</div>';
+      '<p class="small">Δεν υπάρχουν πελάτες ακόμη.</p>';
 
       return;
     }
 
 
-    rows.forEach(x=>{
-
-      const c =
-      fromDb(x);
-
+    customers
+    .forEach(customer=>{
 
       const row =
       document
@@ -750,64 +779,75 @@ async function showCustomers(){
 
 
       button.textContent =
-      c.name +
+      customer.name +
       (
-        c.phone
+        customer.phone
         ?
-        ' · '+c.phone
+        ' · ' + customer.phone
         :
         ''
       );
 
 
       button.onclick =
-      ()=>openCustomer(c.id);
+      ()=>openCustomer(
+        customer.id
+      );
 
 
-      const info =
+      const progress =
       document
       .createElement('span');
 
 
-      info.className =
-      'small';
+      progress.textContent =
+      customer.coffees +
+      '/5';
 
 
-      info.textContent =
-      c.coffees + '/5';
+      row.appendChild(
+        button
+      );
 
 
-      row.appendChild(button);
+      row.appendChild(
+        progress
+      );
 
-      row.appendChild(info);
 
-      list.appendChild(row);
+      list.appendChild(
+        row
+      );
     });
 
   }
 
-  catch(e){
+  catch(error){
 
-    console.error(e);
+    console.error(error);
 
     list.innerHTML =
-    '<div class="small">Σφάλμα φόρτωσης πελατών.</div>';
+    '<p class="small">Σφάλμα φόρτωσης.</p>';
   }
 }
 
+
+/* -----------------------------
+   Open customer
+----------------------------- */
 
 async function openCustomer(code){
 
   try{
 
-    const c =
+    const customer =
     await loadCustomer(code);
 
 
-    if(!c){
+    if(!customer){
 
       alert(
-        'Ο πελάτης δεν βρέθηκε'
+        'Ο πελάτης δεν βρέθηκε.'
       );
 
       home();
@@ -816,37 +856,36 @@ async function openCustomer(code){
     }
 
 
-    currentId =
-    c.id;
-
     currentCustomer =
-    c;
+    customer;
 
 
     renderDetail();
 
   }
 
-  catch(e){
+  catch(error){
 
-    console.error(e);
+    console.error(error);
 
     alert(
-      'Σφάλμα σύνδεσης'
+      'Σφάλμα σύνδεσης.'
     );
-
-    home();
   }
 }
 
 
+/* -----------------------------
+   Render loyalty card
+----------------------------- */
+
 function renderDetail(){
 
-  const c =
+  const customer =
   currentCustomer;
 
 
-  if(!c){
+  if(!customer){
 
     home();
 
@@ -857,13 +896,41 @@ function renderDetail(){
   document
   .getElementById('dname')
   .textContent =
-  c.name;
+  customer.name;
 
 
   document
   .getElementById('dphone')
   .textContent =
-  c.phone || '';
+
+  [
+    customer.phone,
+    customer.email
+  ]
+  .filter(Boolean)
+  .join(' · ');
+
+
+  document
+  .getElementById('progress')
+  .textContent =
+
+  customer.coffees +
+  '/5';
+
+
+  document
+  .getElementById('rewards')
+  .textContent =
+
+  customer.rewards;
+
+
+  document
+  .getElementById('totalCoffees')
+  .textContent =
+
+  customer.total;
 
 
   const cups =
@@ -880,15 +947,17 @@ function renderDetail(){
     i++
   ){
 
-    const d =
+    const cup =
     document
     .createElement('div');
 
 
-    d.className =
+    cup.className =
+
     'cup' +
+
     (
-      i<c.coffees
+      i < customer.coffees
       ?
       ' on'
       :
@@ -896,29 +965,22 @@ function renderDetail(){
     );
 
 
-    d.textContent =
-    i<c.coffees
+    cup.textContent =
+    i < customer.coffees
     ?
     '☕'
     :
     '';
 
 
-    cups.appendChild(d);
+    cups.appendChild(
+      cup
+    );
   }
 
 
-  document
-  .getElementById('status')
-  .textContent =
-
-  c.coffees +
-  '/5 καφέδες · Σύνολο ' +
-  c.total;
-
-
-  const reward =
-  c.rewards > 0;
+  const hasReward =
+  customer.rewards > 0;
 
 
   document
@@ -926,7 +988,7 @@ function renderDetail(){
   .classList
   .toggle(
     'hidden',
-    !reward
+    !hasReward
   );
 
 
@@ -935,7 +997,7 @@ function renderDetail(){
   .classList
   .toggle(
     'hidden',
-    !reward
+    !hasReward
   );
 
 
@@ -945,7 +1007,9 @@ function renderDetail(){
 
   '?customer=' +
 
-  encodeURIComponent(c.id);
+  encodeURIComponent(
+    customer.id
+  );
 
 
   document
@@ -965,6 +1029,10 @@ function renderDetail(){
 }
 
 
+/* -----------------------------
+   Add coffee
+----------------------------- */
+
 async function addCoffee(){
 
   if(!currentCustomer){
@@ -979,12 +1047,12 @@ async function addCoffee(){
   };
 
 
-  next.coffees++;
+  next.coffees += 1;
 
-  next.total++;
+  next.total += 1;
 
 
-  let earnedReward =
+  let rewardEarned =
   false;
 
 
@@ -994,18 +1062,20 @@ async function addCoffee(){
 
     next.coffees = 0;
 
-    next.rewards++;
+    next.rewards += 1;
 
-    next.lifetime_rewards++;
+    next.lifetime_rewards += 1;
 
-    earnedReward =
+    rewardEarned =
     true;
   }
 
 
   try{
 
-    await saveCustomer(next);
+    await saveCustomer(
+      next
+    );
 
 
     currentCustomer =
@@ -1015,7 +1085,7 @@ async function addCoffee(){
     renderDetail();
 
 
-    if(earnedReward){
+    if(rewardEarned){
 
       toast(
         '🎁 Κερδήθηκε δωρεάν καφές!'
@@ -1030,9 +1100,9 @@ async function addCoffee(){
 
   }
 
-  catch(e){
+  catch(error){
 
-    console.error(e);
+    console.error(error);
 
     alert(
       'Δεν αποθηκεύτηκε ο καφές.'
@@ -1040,6 +1110,10 @@ async function addCoffee(){
   }
 }
 
+
+/* -----------------------------
+   Redeem reward
+----------------------------- */
 
 async function redeem(){
 
@@ -1049,7 +1123,7 @@ async function redeem(){
   ){
 
     toast(
-      'Δεν υπάρχει δώρο'
+      'Δεν υπάρχει διαθέσιμο δώρο'
     );
 
     return;
@@ -1067,7 +1141,9 @@ async function redeem(){
 
   try{
 
-    await saveCustomer(next);
+    await saveCustomer(
+      next
+    );
 
 
     currentCustomer =
@@ -1078,14 +1154,14 @@ async function redeem(){
 
 
     toast(
-      '✅ Εξαργυρώθηκε'
+      '✅ Το δώρο εξαργυρώθηκε'
     );
 
   }
 
-  catch(e){
+  catch(error){
 
-    console.error(e);
+    console.error(error);
 
     alert(
       'Δεν αποθηκεύτηκε η εξαργύρωση.'
@@ -1094,30 +1170,37 @@ async function redeem(){
 }
 
 
-async function start(){
+/* -----------------------------
+   App start
+----------------------------- */
 
-  const customerFromQR =
+async function startApp(){
 
+  const params =
   new URLSearchParams(
     window.location.search
-  )
-  .get('customer');
+  );
 
 
-  if(customerFromQR){
+  const customerCode =
+  params.get('customer');
+
+
+  if(customerCode){
 
     await openCustomer(
-      customerFromQR
+      customerCode
     );
 
-  }else{
-
-    home();
+    return;
   }
+
+
+  home();
 }
 
 
-start();
+startApp();
 
 </script>
 
