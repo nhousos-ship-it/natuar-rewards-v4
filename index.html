@@ -272,12 +272,53 @@ const customerFromQR = new URLSearchParams(window.location.search).get('customer
 if (customerFromQR) {
   const customer = getAll().find(c => c.id === customerFromQR);
 
-  if (customer) {
-    currentId = customer.id;
-    renderDetail();
-  } else {
+async function loadCustomerFromSupabase(id) {
+  try {
+    const response = await fetch(
+      SUPABASE_URL + '/rest/v1/customers?loyalty_code=eq.' +
+      encodeURIComponent(id) + '&select=*',
+      {
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': 'Bearer ' + SUPABASE_KEY
+        }
+      }
+    );
+
+    const customers = await response.json();
+
+    if (customers && customers.length > 0) {
+      const db = customers[0];
+
+      const customer = {
+        id: db.loyalty_code,
+        name: db.name,
+        phone: db.phone || '',
+        stamps: db.stamps || 0,
+        rewards: db.rewards_available || 0
+      };
+
+      let all = getAll();
+      const i = all.findIndex(c => c.id === customer.id);
+
+      if (i >= 0) all[i] = customer;
+      else all.push(customer);
+
+      setAll(all);
+      currentId = customer.id;
+      renderDetail();
+    } else {
+      alert('Ο πελάτης δεν βρέθηκε');
+      home();
+    }
+  } catch (e) {
+    alert('Σφάλμα σύνδεσης');
     home();
   }
+}
+
+if (customerFromQR) {
+  loadCustomerFromSupabase(customerFromQR);
 } else {
   home();
 }
