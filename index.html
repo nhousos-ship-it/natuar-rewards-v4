@@ -218,9 +218,8 @@ cups.appendChild(x)
 }
 
 document.getElementById('qrimg').src=
-'/api/qr?data='+
-encodeURIComponent('NATUAR:'+c.id)+
-'&t='+Date.now();
+'https://api.qrserver.com/v1/create-qr-code/?size=220x220&data='+
+encodeURIComponent('NATUAR:'+c.id);
 
 only('detail')
 }
