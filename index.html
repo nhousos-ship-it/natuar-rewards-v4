@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="el">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>NATUAR Rewards</title>
+<style>
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;margin:0;background:#f5f0e7;color:#171717}
+.app{max-width:540px;margin:auto;padding:18px}
+.brand{font-family:Georgia,serif;font-size:32px;letter-spacing:.14em;margin:10px 0 20px}
+.card{background:#fff;border-radius:24px;padding:22px;box-shadow:0 12px 35px rgba(0,0,0,.08);margin-bottom:14px}
+h1,h2{font-family:Georgia,serif}
+.btn{width:100%;border:0;border-radius:16px;padding:15px;margin-top:10px;font-weight:800}
+.primary{background:#171717;color:#fff}
+.secondary{background:#ece5da}
+.hidden{display:none}
+.cups{display:flex;gap:7px;margin:16px 0}
+.cup{flex:1;aspect-ratio:1;border-radius:14px;background:#e9e1d5;display:grid;place-items:center;font-size:22px}
+.cup.on{background:#171717;color:#fff}
+input{width:100%;padding:14px;border-radius:14px;border:1px solid #ddd4c8;margin:7px 0;font-size:16px}
+.qr{display:grid;place-items:center;background:#fff;border-radius:18px;padding:16px;margin-top:15px}
+.small{font-size:12px;opacity:.6}
+.row{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid #eee}
+.link{border:0;background:transparent;font-weight:700;padding:0}
+.notice{background:#171717;color:#fff;border-radius:14px;padding:12px 14px;margin-bottom:12px}
+.reward{background:#e4efdf;padding:14px;border-radius:16px;margin-top:12px;font-weight:700}
+</style>
+</head>
+<body>
+
+<div class="app">
+<div class="brand">NATUAR</div>
+
+<div id="notice" class="notice hidden"></div>
+
+<section id="home">
+<div class="card">
+<div class="small">REWARDS</div>
+<h1>5 καφέδες.<br>Ο επόμενος δώρο.</h1>
+<button class="btn primary" onclick="showCreate()">＋ Νέος πελάτης</button>
+<button class="btn secondary" onclick="showCustomers()">👥 Πελάτες</button>
+</div>
+</section>
+
+<section id="create" class="hidden">
+<button class="link" onclick="home()">← Πίσω</button>
+<div class="card">
+<h2>Νέος πελάτης</h2>
+<input id="name" placeholder="Όνομα">
+<input id="phone" placeholder="Τηλέφωνο" inputmode="tel">
+<button class="btn primary" onclick="createCustomer()">Δημιουργία κάρτας</button>
+</div>
+</section>
+
+<section id="customers" class="hidden">
+<button class="link" onclick="home()">← Πίσω</button>
+<div class="card">
+<h2>Πελάτες</h2>
+<div id="list"></div>
+</div>
+</section>
+
+<section id="detail" class="hidden">
+<button class="link" onclick="home()">← Αρχική</button>
+<div class="card">
+<div class="small">NATUAR REWARDS</div>
+<h2 id="dname"></h2>
+<div id="dphone" class="small"></div>
+
+<div id="cups" class="cups"></div>
+
+<div class="row">
+<span>Πρόοδος</span>
+<strong id="progress"></strong>
+</div>
+
+<div class="row">
+<span>Δώρα</span>
+<strong id="rewards"></strong>
+</div>
+
+<div id="reward" class="reward hidden">🎁 Δωρεάν καφές διαθέσιμος</div>
+
+<button class="btn primary" onclick="addCoffee()">☕ +1 Καφές</button>
+<button class="btn secondary" onclick="redeem()">🎁 Εξαργύρωση</button>
+
+<div class="qr">
+<img id="qrimg" width="220" height="220" alt="QR πελάτη">
+</div>
+
+<p class="small" style="text-align:center">Μοναδικό QR πελάτη</p>
+</div>
+</section>
+
+</div>
+
+<script>
+const KEY='natuar_customers_v4';
+let currentId=null;
+
+function ids(){
+return crypto.randomUUID
+?crypto.randomUUID()
+:'c-'+Date.now()+'-'+Math.random().toString(36).slice(2)
+}
+
+function getAll(){
+try{
+return JSON.parse(localStorage.getItem(KEY)||'[]')
+}catch{
+return[]
+}
+}
+
+function setAll(a){
+localStorage.setItem(KEY,JSON.stringify(a))
+}
+
+function only(id){
+['home','create','customers','detail'].forEach(
+x=>document.getElementById(x).classList.add('hidden')
+);
+document.getElementById(id).classList.remove('hidden')
+}
+
+function home(){
+only('home')
+}
+
+function showCreate(){
+only('create')
+}
+
+function toast(t){
+let n=document.getElementById('notice');
+n.textContent=t;
+n.classList.remove('hidden');
+setTimeout(()=>n.classList.add('hidden'),2200)
+}
+
+function createCustomer(){
+let name=document.getElementById('name').value.trim();
+let phone=document.getElementById('phone').value.trim();
+
+if(!name)return toast('Γράψε όνομα');
+
+let a=getAll();
+
+let c={
+id:ids(),
+name,
+phone,
+coffees:0,
+rewards:0,
+total:0
+};
+
+a.push(c);
+setAll(a);
+
+document.getElementById('name').value='';
+document.getElementById('phone').value='';
+
+openDetail(c.id);
+toast('✅ Δημιουργήθηκε QR πελάτη')
+}
+
+function showCustomers(){
+let a=getAll();
+let l=document.getElementById('list');
+
+l.innerHTML='';
+
+if(!a.length)
+l.innerHTML='<p class="small">Δεν υπάρχουν πελάτες ακόμη.</p>';
+
+a.forEach(c=>{
+let d=document.createElement('div');
+d.className='row';
+
+let b=document.createElement('button');
+b.className='link';
+b.textContent=c.name+(c.phone?' · '+c.phone:'');
+b.onclick=()=>openDetail(c.id);
+
+let s=document.createElement('strong');
+s.textContent=c.coffees+'/5';
+
+d.append(b,s);
+l.appendChild(d)
+});
+
+only('customers')
+}
+
+function openDetail(id){
+let c=getAll().find(x=>x.id===id);
+if(!c)return;
+
+currentId=id;
+
+document.getElementById('dname').textContent=c.name;
+document.getElementById('dphone').textContent=c.phone||'';
+document.getElementById('progress').textContent=c.coffees+'/5';
+document.getElementById('rewards').textContent=c.rewards;
+
+document.getElementById('reward')
+.classList.toggle('hidden',c.rewards<1);
+
+let cups=document.getElementById('cups');
+cups.innerHTML='';
+
+for(let i=0;i<5;i++){
+let x=document.createElement('div');
+x.className='cup'+(i<c.coffees?' on':'');
+x.textContent='☕';
+cups.appendChild(x)
+}
+
+document.getElementById('qrimg').src=
+'/api/qr?data='+
+encodeURIComponent('NATUAR:'+c.id)+
+'&t='+Date.now();
+
+only('detail')
+}
+
+function mutate(fn){
+let a=getAll();
+let i=a.findIndex(c=>c.id===currentId);
+
+if(i<0)return;
+
+fn(a[i]);
+setAll(a);
+openDetail(currentId)
+}
+
+function addCoffee(){
+mutate(c=>{
+c.coffees++;
+c.total++;
+
+if(c.coffees>=5){
+c.coffees=0;
+c.rewards++;
+toast('🎁 Κερδήθηκε δωρεάν καφές!')
+}else{
+toast('☕ Προστέθηκε καφές')
+}
+})
+}
+
+function redeem(){
+let c=getAll().find(x=>x.id===currentId);
+
+if(!c||c.rewards<1)
+return toast('Δεν υπάρχει δώρο');
+
+mutate(c=>{
+c.rewards--;
+toast('✅ Εξαργυρώθηκε')
+})
+}
+
+home()
+</script>
+
+</body>
+</html>
